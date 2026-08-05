@@ -8,14 +8,14 @@ export function loadState() {
     const parsed = JSON.parse(raw)
     if (!parsed || typeof parsed !== 'object') return null
 
-    // Clean up importedActivityState to remove status (now in Supabase)
+    // Clean up importedActivityState to remove status and rating (now in Supabase)
     const importedActivityState = {}
     if (parsed.importedActivityState && typeof parsed.importedActivityState === 'object') {
       Object.keys(parsed.importedActivityState).forEach((key) => {
         const state = parsed.importedActivityState[key]
         if (state) {
-          // Only keep rating and memory (status is now in Supabase)
-          const { status, ...localState } = state
+          // Only keep memory (status and rating are now in Supabase)
+          const { status, rating, ...localState } = state
           if (Object.keys(localState).length > 0) {
             importedActivityState[key] = localState
           }

@@ -1,20 +1,27 @@
 import { formatActivityTime } from '../utils/activitySorting'
 
-function StarRating({ rating, onChange }) {
+function StarRating({ rating, averageRating, ratingCount, onChange }) {
   return (
-    <div className="star-rating" role="group" aria-label="Rate this activity">
-      {[1, 2, 3, 4, 5].map((value) => (
-        <button
-          key={value}
-          type="button"
-          className={`star-btn${rating >= value ? ' active' : ''}`}
-          onClick={() => onChange(value === rating ? null : value)}
-          aria-label={`${value} star${value > 1 ? 's' : ''}`}
-          aria-pressed={rating >= value}
-        >
-          ★
-        </button>
-      ))}
+    <div className="star-rating-container">
+      <div className="star-rating" role="group" aria-label="Rate this activity">
+        {[1, 2, 3, 4, 5].map((value) => (
+          <button
+            key={value}
+            type="button"
+            className={`star-btn${rating >= value ? ' active' : ''}`}
+            onClick={() => onChange(value)}
+            aria-label={`${value} star${value > 1 ? 's' : ''}`}
+            aria-pressed={rating >= value}
+          >
+            ★
+          </button>
+        ))}
+      </div>
+      {averageRating && ratingCount > 0 && (
+        <span className="rating-aggregate">
+          {averageRating.toFixed(1)} ({ratingCount})
+        </span>
+      )}
     </div>
   )
 }
@@ -23,13 +30,19 @@ export default function ActivityCard({
   activity,
   onToggleComplete,
   onSetRating,
+  onToggleFavorite,
   onSetMemory,
   onEdit,
   onDelete,
+  userFeedback,
+  averageRating,
+  favoriteCount,
 }) {
   const isComplete = activity.status === 'complete'
   const timeLabel = formatActivityTime(activity)
   const isUser = activity.source === 'user'
+  const isFavorite = userFeedback?.is_favorite || false
+  const userRating = userFeedback?.rating || null
 
   return (
     <li className={`activity-card${isComplete ? ' done' : ''}`}>
@@ -107,10 +120,26 @@ export default function ActivityCard({
 
       {isComplete && (
         <div className="activity-memory">
-          <StarRating
-            rating={activity.rating}
-            onChange={(rating) => onSetRating(activity.id, rating)}
-          />
+          <div className="memory-actions">
+            <StarRating
+              rating={userRating}
+              averageRating={averageRating?.average}
+              ratingCount={averageRating?.count}
+              onChange={(rating) => onSetRating(activity.id, rating)}
+            />
+            <button
+              type="button"
+              className={`favorite-btn${isFavorite ? ' active' : ''}`}
+              onClick={() => onToggleFavorite(activity.id)}
+              aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              aria-pressed={isFavorite}
+            >
+              {isFavorite ? '❤' : '♡'}
+              {favoriteCount > 0 && (
+                <span className="favorite-count">{favoriteCount}</span>
+              )}
+            </button>
+          </div>
           <label className="memory-label" htmlFor={`memory-${activity.id}`}>
             Memory
           </label>

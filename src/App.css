@@ -675,6 +675,18 @@ body {
   gap: 8px;
 }
 
+.memory-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .star-rating {
   display: flex;
   gap: 4px;
@@ -688,10 +700,51 @@ body {
   color: rgba(255, 255, 255, 0.2);
   cursor: pointer;
   line-height: 1;
+  transition: color 0.15s;
+}
+
+.star-btn:hover {
+  color: rgba(251, 191, 36, 0.5);
 }
 
 .star-btn.active {
   color: #fbbf24;
+}
+
+.rating-aggregate {
+  font-size: 0.75rem;
+  color: #8b8b9a;
+  white-space: nowrap;
+}
+
+.favorite-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.125rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+
+.favorite-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.favorite-btn.active {
+  background: rgba(232, 76, 92, 0.15);
+  color: #e84c5c;
+}
+
+.favorite-count {
+  font-size: 0.6875rem;
+  font-weight: 600;
 }
 
 .memory-label {

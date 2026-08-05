@@ -14,6 +14,7 @@ import TravelerName from './components/TravelerName'
 import TripHeader from './components/TripHeader'
 import { useAuth } from './hooks/useAuth'
 import { useActivityCompletion } from './hooks/useActivityCompletion'
+import { useActivityFeedback } from './hooks/useActivityFeedback'
 import { usePhotoGallery } from './hooks/usePhotoGallery'
 import { useTripState } from './hooks/useTripState'
 import { getFixedActivities } from './utils/activitySorting'
@@ -40,6 +41,16 @@ function App() {
     error: completionError,
     toggleCompletion,
   } = useActivityCompletion(user)
+
+  const {
+    loading: feedbackLoading,
+    error: feedbackError,
+    getUserFeedback,
+    getAverageRating,
+    getFavoriteCount,
+    setRating,
+    toggleFavorite,
+  } = useActivityFeedback(user)
   
   const {
     days,
@@ -92,7 +103,7 @@ function App() {
   }
 
   // Show loading state while auth and essential data initializes
-  if (authLoading || completionLoading) {
+  if (authLoading || completionLoading || feedbackLoading) {
     return (
       <div className="app">
         <div className="auth-loading">
@@ -106,14 +117,14 @@ function App() {
   // Photos can load in background, don't block app render
 
   // Show error state if auth or completion loading failed
-  if (authError || completionError) {
+  if (authError || completionError || feedbackError) {
     return (
       <div className="app">
         <div className="auth-error">
           <p className="error-title">
             {authError ? 'Authentication Error' : 'Loading Error'}
           </p>
-          <p className="error-message">{authError || completionError}</p>
+          <p className="error-message">{authError || completionError || feedbackError}</p>
           <button
             type="button"
             className="btn btn-primary"
@@ -211,10 +222,14 @@ function App() {
                   key={activity.id}
                   activity={activity}
                   onToggleComplete={handleToggleComplete}
-                  onSetRating={setActivityRating}
+                  onSetRating={setRating}
+                  onToggleFavorite={toggleFavorite}
                   onSetMemory={setActivityMemory}
                   onEdit={openEditForm}
                   onDelete={setDeleteTarget}
+                  userFeedback={getUserFeedback(activity.id)}
+                  averageRating={getAverageRating(activity.id)}
+                  favoriteCount={getFavoriteCount(activity.id)}
                 />
               ))}
             </ul>

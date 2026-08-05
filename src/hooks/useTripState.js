@@ -41,7 +41,6 @@ function mergeImportedActivities(importedActivityState, completionState) {
       return {
         ...activity,
         status: isComplete ? 'complete' : 'planned',
-        rating: saved?.rating ?? activity.rating,
         memory: saved?.memory ?? activity.memory,
       }
     }),
@@ -172,8 +171,8 @@ export function useTripState(completionState = {}) {
         return { ...prev, userActivities }
       }
 
-      // Only update rating and memory in local state (completion is in Supabase)
-      const { status, ...localUpdates } = updates
+      // Only update memory in local state (completion and rating are in Supabase)
+      const { status, rating, ...localUpdates } = updates
       
       const importedActivityState = {
         ...prev.importedActivityState,
@@ -193,12 +192,11 @@ export function useTripState(completionState = {}) {
     // Completion is now managed by useActivityCompletion hook
   }, [])
 
-  const setActivityRating = useCallback(
-    (activityId, rating) => {
-      updateActivity(activityId, { rating })
-    },
-    [updateActivity],
-  )
+  // Note: setActivityRating is now handled by the feedback hook
+  // This function is kept for API compatibility but does nothing
+  const setActivityRating = useCallback(() => {
+    // Rating is now managed by useActivityFeedback hook
+  }, [])
 
   const setActivityMemory = useCallback(
     (activityId, memory) => {

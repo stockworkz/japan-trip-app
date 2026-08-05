@@ -25,6 +25,10 @@ function normalizeUserActivity(activity) {
     rating: activity.rating ?? null,
     memory: activity.memory || '',
     photos: Array.isArray(activity.photos) ? activity.photos : [],
+    scheduleType: activity.scheduleType || 'flexible',
+    sortOrder: activity.sortOrder ?? 999,
+    optional: activity.optional ?? false,
+    needsConfirmation: activity.needsConfirmation ?? false,
   }
 }
 

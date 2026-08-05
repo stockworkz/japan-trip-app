@@ -67,6 +67,12 @@ export default function ActivityCard({
               <span className="activity-time">{timeLabel}</span>
             )}
             <span className="type-badge">{activity.type}</span>
+            {activity.optional && (
+              <span className="optional-badge">optional</span>
+            )}
+            {activity.needsConfirmation && (
+              <span className="needs-confirmation-badge">needs confirmation</span>
+            )}
           </div>
           <p className="activity-title">{activity.title}</p>
           {activity.location && (

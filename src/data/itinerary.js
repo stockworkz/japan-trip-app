@@ -1,203 +1,101 @@
-function seedActivity(activity) {
+import rawData from './japan-itinerary-2026.json'
+
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+]
+
+function formatDisplayDate(dateString) {
+  const date = new Date(dateString + 'T00:00:00')
+  return `${MONTH_NAMES[date.getMonth()]} ${date.getDate()}`
+}
+
+function mapActivityType(jsonType) {
+  const typeMap = {
+    'travel': 'transport',
+    'explore': 'sightseeing',
+    'nightlife': 'optional',
+    'park': 'sightseeing',
+    'break': 'accommodation',
+    'lodging': 'accommodation'
+  }
+  return typeMap[jsonType] || jsonType
+}
+
+function determineScheduleType(activity) {
+  // Fixed events: reservations, exact times, travel with times, lodging with times
+  if (activity.reservation === true) return 'fixed'
+  
+  if (activity.time && activity.time.match(/^\d{1,2}:\d{2}$/)) {
+    // Has exact time like "14:30"
+    return 'fixed'
+  }
+  
+  if (activity.timeLabel && activity.timeLabel.match(/\d{1,2}:\d{2}\s*(AM|PM)/i)) {
+    // Has formatted time like "2:30 PM" or "10:01 AM"
+    const isFlexibleType = ['food', 'shopping', 'sightseeing'].includes(activity.type)
+    if (!isFlexibleType || activity.reservation) {
+      return 'fixed'
+    }
+  }
+  
+  // Check-in and travel with specific times are fixed
+  if ((activity.type === 'lodging' || activity.type === 'travel') && activity.timeLabel) {
+    return 'fixed'
+  }
+  
+  return 'flexible'
+}
+
+function getLodgingForDay(date, lodgingArray) {
+  const lodging = lodgingArray.find(
+    (item) => item.checkIn === date
+  )
+  
+  if (!lodging) return null
+  
   return {
-    time: '',
-    timeLabel: null,
-    city: 'Tokyo',
-    location: '',
-    notes: '',
+    name: lodging.name || null,
+    type: lodging.type || null,
+    location: lodging.city || null,
+    checkIn: lodging.checkInTime || null,
+    checkOut: null,
+    url: lodging.url || null,
+    notes: ''
+  }
+}
+
+function transformActivity(activity, dayDate, dayCity, sortOrder) {
+  const scheduleType = determineScheduleType(activity)
+  
+  return {
+    id: activity.id,
+    date: dayDate,
+    time: activity.timeLabel || '',
+    timeLabel: activity.timeLabel || null,
+    title: activity.title,
+    city: dayCity,
+    type: mapActivityType(activity.type),
+    location: activity.location || '',
+    notes: activity.notes || '',
     source: 'imported',
     status: 'planned',
     rating: null,
     memory: '',
     photos: [],
-    ...activity,
+    scheduleType,
+    sortOrder,
+    optional: activity.optional === true,
+    needsConfirmation: activity.needsConfirmation === true
   }
 }
 
-export const itinerary = [
-  {
-    date: '2026-08-06',
-    displayDate: 'August 6',
-    city: 'Tokyo',
-    lodging: null,
-    activities: [
-      seedActivity({
-        id: 'aug6-arrive',
-        date: '2026-08-06',
-        time: '2:30 PM',
-        title: 'Arrive in Tokyo',
-        type: 'transport',
-      }),
-      seedActivity({
-        id: 'aug6-checkin',
-        date: '2026-08-06',
-        title: 'Check into Airbnb and relax/change',
-        type: 'accommodation',
-      }),
-      seedActivity({
-        id: 'aug6-shinjuku',
-        date: '2026-08-06',
-        title: 'Walk around Shinjuku',
-        type: 'sightseeing',
-        location: 'Shinjuku',
-      }),
-      seedActivity({
-        id: 'aug6-godzilla',
-        date: '2026-08-06',
-        title: 'Visit Godzilla Head',
-        type: 'sightseeing',
-        location: 'Shinjuku',
-      }),
-      seedActivity({
-        id: 'aug6-kabukicho',
-        date: '2026-08-06',
-        title: 'Explore Kabukicho and get dinner',
-        type: 'food',
-        location: 'Kabukicho, Shinjuku',
-      }),
-      seedActivity({
-        id: 'aug6-golden-gai',
-        date: '2026-08-06',
-        title: 'Golden Gai if everyone has energy',
-        type: 'optional',
-        location: 'Golden Gai, Shinjuku',
-        notes: 'Optional if everyone still has energy',
-      }),
-    ],
-  },
-  {
-    date: '2026-08-07',
-    displayDate: 'August 7',
-    city: 'Tokyo',
-    lodging: null,
-    activities: [
-      seedActivity({
-        id: 'aug7-breakfast',
-        date: '2026-08-07',
-        title: '7-Eleven breakfast',
-        type: 'food',
-      }),
-      seedActivity({
-        id: 'aug7-meiji',
-        date: '2026-08-07',
-        time: '8:30 AM',
-        title: 'Meiji Shrine',
-        type: 'sightseeing',
-        location: 'Meiji Shrine',
-      }),
-      seedActivity({
-        id: 'aug7-yoyogi',
-        date: '2026-08-07',
-        title: 'Optional Yoyogi Park',
-        type: 'optional',
-        location: 'Yoyogi Park',
-      }),
-      seedActivity({
-        id: 'aug7-takeshita',
-        date: '2026-08-07',
-        title: 'Takeshita Street',
-        type: 'sightseeing',
-        location: 'Harajuku',
-      }),
-      seedActivity({
-        id: 'aug7-cat-street',
-        date: '2026-08-07',
-        title: 'Cat Street',
-        type: 'sightseeing',
-        location: 'Harajuku',
-      }),
-      seedActivity({
-        id: 'aug7-omotesando',
-        date: '2026-08-07',
-        title: 'Omotesando and Onitsuka Tiger flagship store',
-        type: 'shopping',
-        location: 'Omotesando',
-      }),
-      seedActivity({
-        id: 'aug7-airbnb',
-        date: '2026-08-07',
-        time: '4:00 PM',
-        title: 'Return to Airbnb',
-        type: 'accommodation',
-      }),
-      seedActivity({
-        id: 'aug7-shinjuku-golden',
-        date: '2026-08-07',
-        title: 'Explore Shinjuku or Golden Gai',
-        type: 'optional',
-        location: 'Shinjuku',
-      }),
-      seedActivity({
-        id: 'aug7-momo',
-        date: '2026-08-07',
-        time: '7:30 PM',
-        title: 'Momo Paradise Kabukicho reservation',
-        type: 'food',
-        location: 'Kabukicho, Shinjuku',
-      }),
-    ],
-  },
-  {
-    date: '2026-08-08',
-    displayDate: 'August 8',
-    city: 'Tokyo',
-    lodging: null,
-    activities: [
-      seedActivity({
-        id: 'aug8-breakfast',
-        date: '2026-08-08',
-        title: '7-Eleven breakfast',
-        type: 'food',
-      }),
-      seedActivity({
-        id: 'aug8-gotokuji',
-        date: '2026-08-08',
-        title: 'Train to Gotokuji Temple',
-        type: 'transport',
-        location: 'Gotokuji Temple',
-      }),
-      seedActivity({
-        id: 'aug8-shimokitazawa',
-        date: '2026-08-08',
-        title: 'Explore Shimokitazawa and get lunch',
-        type: 'food',
-        location: 'Shimokitazawa',
-      }),
-      seedActivity({
-        id: 'aug8-shibuya',
-        date: '2026-08-08',
-        title: 'Go to Shibuya',
-        type: 'transport',
-        location: 'Shibuya',
-      }),
-      seedActivity({
-        id: 'aug8-crossing',
-        date: '2026-08-08',
-        title: 'Shibuya Crossing',
-        type: 'sightseeing',
-        location: 'Shibuya',
-      }),
-      seedActivity({
-        id: 'aug8-hachiko',
-        date: '2026-08-08',
-        title: 'Hachiko statue',
-        type: 'sightseeing',
-        location: 'Shibuya',
-      }),
-      seedActivity({
-        id: 'aug8-shop-snacks',
-        date: '2026-08-08',
-        title: 'Explore, shop, and get snacks',
-        type: 'shopping',
-        location: 'Shibuya',
-      }),
-      seedActivity({
-        id: 'aug8-sonny-angel',
-        date: '2026-08-08',
-        title: 'Visit Soniandsmi Sonny Angel store',
-        type: 'shopping',
-        location: 'Shibuya',
-      }),
-    ],
-  },
-]
+export const itinerary = rawData.days.map((day) => ({
+  date: day.date,
+  displayDate: formatDisplayDate(day.date),
+  city: day.city,
+  lodging: getLodgingForDay(day.date, rawData.lodging),
+  activities: day.activities.map((activity, index) =>
+    transformActivity(activity, day.date, day.city, index)
+  )
+}))

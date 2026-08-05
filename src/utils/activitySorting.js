@@ -18,15 +18,16 @@ function parseTimeToMinutes(time) {
 }
 
 export function sortActivities(activities) {
+  // Sort by sortOrder (original JSON position) to preserve natural flow
   return [...activities].sort((a, b) => {
-    const aMinutes = parseTimeToMinutes(a.time)
-    const bMinutes = parseTimeToMinutes(b.time)
-
-    if (aMinutes !== null && bMinutes !== null) {
-      return aMinutes - bMinutes
+    const aOrder = a.sortOrder ?? 999
+    const bOrder = b.sortOrder ?? 999
+    
+    if (aOrder !== bOrder) {
+      return aOrder - bOrder
     }
-    if (aMinutes !== null) return -1
-    if (bMinutes !== null) return 1
+    
+    // Fallback to title if sortOrder is equal (for user-created activities)
     return a.title.localeCompare(b.title)
   })
 }
@@ -35,4 +36,8 @@ export function formatActivityTime(activity) {
   if (activity.time) return activity.time
   if (activity.timeLabel) return activity.timeLabel
   return null
+}
+
+export function getFixedActivities(activities) {
+  return activities.filter(activity => activity.scheduleType === 'fixed')
 }

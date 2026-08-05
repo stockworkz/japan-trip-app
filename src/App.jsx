@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ActivityCard from './components/ActivityCard'
 import ActivityForm from './components/ActivityForm'
+import AnchorsCard from './components/AnchorsCard'
 import BottomNav from './components/BottomNav'
 import DaySelector from './components/DaySelector'
 import LodgingCard from './components/LodgingCard'
@@ -9,6 +10,7 @@ import NextActivityCard from './components/NextActivityCard'
 import ReflectionCard from './components/ReflectionCard'
 import TripHeader from './components/TripHeader'
 import { useTripState } from './hooks/useTripState'
+import { getFixedActivities } from './utils/activitySorting'
 import './App.css'
 
 function activityToForm(activity) {
@@ -52,6 +54,7 @@ function App() {
   const [deleteTarget, setDeleteTarget] = useState(null)
 
   const isEmptyDay = selectedDay.activities.length === 0
+  const fixedActivities = getFixedActivities(selectedDay.activities)
 
   function openAddForm() {
     setEditingActivity(null)
@@ -118,9 +121,11 @@ function App() {
           onAddActivity={openAddForm}
         />
 
+        <AnchorsCard anchors={fixedActivities} />
+
         <section className="plan-section" aria-label="Today's plan">
           <div className="section-header">
-            <h2 className="section-title">Today&apos;s Plan</h2>
+            <h2 className="section-title">Day plan</h2>
             <p className="day-progress">
               {dayProgress.completed} of {dayProgress.total} completed
             </p>

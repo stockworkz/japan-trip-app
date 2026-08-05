@@ -1,0 +1,712 @@
+{
+  "trip": {
+    "name": "Japan Trip 2026",
+    "startDate": "2026-08-06",
+    "endDate": "2026-08-15",
+    "travelers": 4,
+    "cities": [
+      "Tokyo",
+      "Kyoto",
+      "Kawagoe"
+    ],
+    "source": "Japan Itinerary (1).pdf"
+  },
+  "lodging": [
+    {
+      "city": "Tokyo",
+      "checkIn": "2026-08-06",
+      "checkOut": "2026-08-10",
+      "type": "Airbnb",
+      "url": "https://www.airbnb.com/rooms/53639201?check_in=2026-08-06&guests=4&adults=4&check_out=2026-08-10"
+    },
+    {
+      "city": "Kyoto",
+      "checkIn": "2026-08-10",
+      "checkOut": "2026-08-12",
+      "type": "Airbnb",
+      "checkInTime": "15:00",
+      "url": "https://www.airbnb.com/rooms/741646510838244238"
+    },
+    {
+      "city": "Tokyo",
+      "checkIn": "2026-08-12",
+      "checkOut": "2026-08-15",
+      "type": "Hotel",
+      "name": "Courtyard Tokyo Ginza Hotel",
+      "url": "https://www.marriott.com/en-us/hotels/tyocy-courtyard-tokyo-ginza-hotel/overview/"
+    }
+  ],
+  "days": [
+    {
+      "date": "2026-08-06",
+      "dayNumber": 0,
+      "title": "Arrival in Tokyo",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-06-arrive-haneda",
+          "title": "Arrive in Tokyo",
+          "time": "14:30",
+          "timeLabel": "2:30 PM",
+          "type": "travel",
+          "location": "Tokyo",
+          "reservation": true,
+          "notes": "Arrival day."
+        },
+        {
+          "id": "2026-08-06-airbnb",
+          "title": "Arrive at Airbnb, relax, and change",
+          "timeOfDay": "afternoon",
+          "type": "lodging",
+          "location": "Shinjuku",
+          "checklist": true
+        },
+        {
+          "id": "2026-08-06-shinjuku-walk",
+          "title": "Walk around Shinjuku",
+          "timeOfDay": "evening",
+          "type": "explore",
+          "location": "Shinjuku",
+          "notes": "Get acclimated with the area."
+        },
+        {
+          "id": "2026-08-06-godzilla-head",
+          "title": "See the Godzilla Head",
+          "timeOfDay": "evening",
+          "type": "sightseeing",
+          "location": "Hotel Gracery Shinjuku",
+          "address": "1 Chome-18-8 Kabukicho, Shinjuku City, Tokyo 160-0021",
+          "notes": "The head generally roars and breathes smoke hourly between noon and 8 PM."
+        },
+        {
+          "id": "2026-08-06-kabukicho",
+          "title": "Explore Kabukicho and get dinner",
+          "timeOfDay": "evening",
+          "type": "food",
+          "location": "Kabukicho",
+          "notes": "Be wary of aggressive hosts trying to pull visitors into restaurants or bars."
+        },
+        {
+          "id": "2026-08-06-golden-gai",
+          "title": "Golden Gai or arcade",
+          "timeOfDay": "night",
+          "type": "nightlife",
+          "location": "Shinjuku",
+          "optional": true,
+          "notes": "Save for another night if everyone is too tired."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-07",
+      "dayNumber": 1,
+      "title": "Harajuku, Omotesando, and Shinjuku",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-07-711",
+          "title": "Breakfast and drinks at 7-Eleven",
+          "timeOfDay": "morning",
+          "type": "food",
+          "checklist": true
+        },
+        {
+          "id": "2026-08-07-harajuku",
+          "title": "Head to Harajuku",
+          "time": "08:30",
+          "timeLabel": "Around 8:30 AM",
+          "type": "travel"
+        },
+        {
+          "id": "2026-08-07-meiji",
+          "title": "Visit Meiji Shrine",
+          "timeOfDay": "morning",
+          "type": "sightseeing",
+          "location": "Meiji Jingu",
+          "notes": "Walk through the wooded grounds to the shrine."
+        },
+        {
+          "id": "2026-08-07-yoyogi",
+          "title": "Stroll through Yoyogi Park",
+          "timeOfDay": "morning",
+          "type": "park",
+          "optional": true,
+          "location": "Yoyogi Park"
+        },
+        {
+          "id": "2026-08-07-takeshita",
+          "title": "Explore Takeshita Street",
+          "timeOfDay": "late morning",
+          "type": "shopping",
+          "location": "Harajuku",
+          "notes": "Quirky fashion, kawaii culture, street food, photo booths, and cafes."
+        },
+        {
+          "id": "2026-08-07-cat-street",
+          "title": "Walk Cat Street",
+          "timeOfDay": "afternoon",
+          "type": "shopping",
+          "location": "Harajuku to Shibuya",
+          "notes": "Vintage shops, Japanese fashion, cafes, and restaurants. Get lunch or a snack here if desired."
+        },
+        {
+          "id": "2026-08-07-omotesando",
+          "title": "Shop in Omotesando",
+          "timeOfDay": "afternoon",
+          "type": "shopping",
+          "location": "Omotesando",
+          "notes": "Visit the Onitsuka Tiger flagship store."
+        },
+        {
+          "id": "2026-08-07-regroup",
+          "title": "Return to the Airbnb and regroup",
+          "time": "16:00",
+          "timeLabel": "Around 4:00 PM",
+          "type": "break",
+          "location": "Shinjuku",
+          "notes": "Drop off purchases and rest."
+        },
+        {
+          "id": "2026-08-07-shinjuku-drinks",
+          "title": "Explore Shinjuku and get drinks",
+          "timeOfDay": "evening",
+          "type": "nightlife",
+          "location": "Shinjuku",
+          "notes": "Golden Gai if not visited on arrival night."
+        },
+        {
+          "id": "2026-08-07-momo-paradise",
+          "title": "Dinner at Momo Paradise Kabukicho",
+          "time": "19:30",
+          "timeLabel": "7:30 PM",
+          "type": "food",
+          "location": "Momo Paradise Kabukicho Main Store",
+          "reservation": true,
+          "partySize": 4
+        }
+      ]
+    },
+    {
+      "date": "2026-08-08",
+      "dayNumber": 2,
+      "title": "Gotokuji, Shimokitazawa, and Shibuya",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-08-711",
+          "title": "Breakfast and snacks at 7-Eleven",
+          "timeOfDay": "morning",
+          "type": "food",
+          "checklist": true
+        },
+        {
+          "id": "2026-08-08-gotokuji-train",
+          "title": "Take the train to Gotokuji",
+          "timeOfDay": "morning",
+          "type": "travel",
+          "notes": "Approximately 30 minutes. The Setagaya Line train may have a cat design."
+        },
+        {
+          "id": "2026-08-08-gotokuji",
+          "title": "Visit Gotokuji Temple",
+          "timeOfDay": "morning",
+          "type": "sightseeing",
+          "location": "Gotokuji Temple",
+          "notes": "See the lucky cat statues and purchase one for luck."
+        },
+        {
+          "id": "2026-08-08-shimokitazawa",
+          "title": "Explore Shimokitazawa and get lunch",
+          "timeOfDay": "late morning",
+          "type": "shopping",
+          "location": "Shimokitazawa",
+          "notes": "Thrift shopping, vintage clothes, live music, and affordable shops."
+        },
+        {
+          "id": "2026-08-08-shibuya",
+          "title": "Explore Shibuya",
+          "timeOfDay": "afternoon",
+          "type": "explore",
+          "location": "Shibuya",
+          "notes": "Go directly or stop at the Airbnb first."
+        },
+        {
+          "id": "2026-08-08-crossing",
+          "title": "Experience Shibuya Crossing",
+          "timeOfDay": "afternoon",
+          "type": "sightseeing",
+          "location": "Shibuya Crossing"
+        },
+        {
+          "id": "2026-08-08-hachiko",
+          "title": "See the Hachiko statue",
+          "timeOfDay": "afternoon",
+          "type": "sightseeing",
+          "location": "Shibuya Station"
+        },
+        {
+          "id": "2026-08-08-sonny-angel",
+          "title": "Visit the Sonny Angel store",
+          "timeOfDay": "afternoon",
+          "type": "shopping",
+          "location": "Soniandsmi"
+        },
+        {
+          "id": "2026-08-08-dinner",
+          "title": "Dinner in Shibuya",
+          "timeOfDay": "evening",
+          "type": "food",
+          "needsConfirmation": true,
+          "notes": "The source itinerary indicates a dinner reservation, but the restaurant and time are not listed."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-09",
+      "dayNumber": 3,
+      "title": "Meguro, Daikanyama, and Shibuya Sky",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-09-starbucks-reserve",
+          "title": "Breakfast and coffee at Starbucks Reserve",
+          "timeOfDay": "morning",
+          "type": "food",
+          "location": "Starbucks Reserve Roastery Tokyo",
+          "address": "2 Chome-19-23 Aobadai, Meguro City, Tokyo 153-0042"
+        },
+        {
+          "id": "2026-08-09-meguro-river",
+          "title": "Walk along the Meguro River",
+          "timeOfDay": "morning",
+          "type": "explore",
+          "location": "Meguro River",
+          "notes": "Explore nearby boutiques and cafes."
+        },
+        {
+          "id": "2026-08-09-da-isa",
+          "title": "Lunch at Pizzeria e Trattoria da ISA",
+          "timeOfDay": "midday",
+          "type": "food",
+          "reservation": false,
+          "notes": "No reservation."
+        },
+        {
+          "id": "2026-08-09-daikanyama",
+          "title": "Explore Daikanyama",
+          "timeOfDay": "afternoon",
+          "type": "explore"
+        },
+        {
+          "id": "2026-08-09-tsite",
+          "title": "Visit Daikanyama T-Site",
+          "timeOfDay": "afternoon",
+          "type": "shopping",
+          "location": "Daikanyama T-Site"
+        },
+        {
+          "id": "2026-08-09-shibuya-sky",
+          "title": "Shibuya Sky",
+          "time": "15:40",
+          "timeLabel": "3:40 PM",
+          "type": "sightseeing",
+          "location": "Shibuya Sky",
+          "reservation": true,
+          "partySize": 4
+        }
+      ]
+    },
+    {
+      "date": "2026-08-10",
+      "dayNumber": 4,
+      "title": "Tokyo to Kyoto",
+      "city": "Kyoto",
+      "activities": [
+        {
+          "id": "2026-08-10-shinkansen",
+          "title": "Bullet train from Tokyo to Kyoto",
+          "time": "09:30",
+          "endTime": "11:44",
+          "timeLabel": "9:30 AM–11:44 AM",
+          "type": "travel",
+          "reservation": true,
+          "details": {
+            "train": "Nozomi 21",
+            "origin": "Tokyo",
+            "destination": "Kyoto",
+            "car": 16,
+            "seats": [
+              "10-D",
+              "10-E",
+              "9-D",
+              "9-E"
+            ]
+          }
+        },
+        {
+          "id": "2026-08-10-nishiki",
+          "title": "Nishiki Market for lunch and snacks",
+          "timeOfDay": "midday",
+          "type": "food",
+          "location": "Nishiki Market"
+        },
+        {
+          "id": "2026-08-10-checkin",
+          "title": "Check in to Kyoto Airbnb",
+          "time": "15:00",
+          "timeLabel": "3:00 PM",
+          "type": "lodging"
+        },
+        {
+          "id": "2026-08-10-gion",
+          "title": "Walk and shop in Gion",
+          "timeOfDay": "evening",
+          "type": "shopping",
+          "location": "Gion",
+          "notes": "Traditional streets and lanterns, especially pretty at night."
+        },
+        {
+          "id": "2026-08-10-dinner",
+          "title": "Dinner in Gion",
+          "timeOfDay": "evening",
+          "type": "food",
+          "reservation": false
+        }
+      ]
+    },
+    {
+      "date": "2026-08-11",
+      "dayNumber": 5,
+      "title": "Fushimi Inari and Arashiyama",
+      "city": "Kyoto",
+      "activities": [
+        {
+          "id": "2026-08-11-fushimi-inari",
+          "title": "Visit Fushimi Inari early",
+          "timeOfDay": "early morning",
+          "type": "sightseeing",
+          "location": "Fushimi Inari Taisha",
+          "notes": "Start early to beat crowds and hike higher through the torii gates."
+        },
+        {
+          "id": "2026-08-11-taxi-otagi",
+          "title": "Taxi to Otagi Nenbutsuji",
+          "timeOfDay": "morning",
+          "type": "travel"
+        },
+        {
+          "id": "2026-08-11-otagi",
+          "title": "Visit Otagi Nenbutsuji",
+          "timeOfDay": "morning",
+          "type": "sightseeing",
+          "location": "Otagi Nenbutsuji",
+          "notes": "More than 1,200 unique stone statues and generally quieter than Kyoto's most famous temples."
+        },
+        {
+          "id": "2026-08-11-adashino",
+          "title": "Walk to Adashino Nenbutsuji",
+          "timeOfDay": "late morning",
+          "type": "sightseeing",
+          "location": "Adashino Nenbutsuji",
+          "notes": "Includes a bamboo grove path."
+        },
+        {
+          "id": "2026-08-11-arashiyama-lunch",
+          "title": "Lunch in Arashiyama",
+          "timeOfDay": "midday",
+          "type": "food",
+          "location": "Arashiyama"
+        },
+        {
+          "id": "2026-08-11-miffy",
+          "title": "Visit Miffy Sakura Bakery",
+          "timeOfDay": "afternoon",
+          "type": "food",
+          "location": "Arashiyama"
+        },
+        {
+          "id": "2026-08-11-arashiyama",
+          "title": "Explore and shop in Arashiyama",
+          "timeOfDay": "afternoon",
+          "type": "shopping",
+          "location": "Arashiyama"
+        },
+        {
+          "id": "2026-08-11-hikiniku",
+          "title": "Dinner at Hikiniku to Come",
+          "time": "19:30",
+          "timeLabel": "7:30 PM",
+          "type": "food",
+          "reservation": true
+        }
+      ]
+    },
+    {
+      "date": "2026-08-12",
+      "dayNumber": 6,
+      "title": "Kyoto to Tokyo and teamLab",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-12-shinkansen",
+          "title": "Bullet train from Kyoto to Tokyo",
+          "time": "10:01",
+          "endTime": "12:15",
+          "timeLabel": "10:01 AM–12:15 PM",
+          "type": "travel",
+          "reservation": true,
+          "details": {
+            "train": "Nozomi 6",
+            "origin": "Kyoto",
+            "destination": "Tokyo",
+            "car": 14,
+            "seats": [
+              "8-A",
+              "8-B",
+              "9-A",
+              "9-B"
+            ]
+          }
+        },
+        {
+          "id": "2026-08-12-hotel",
+          "title": "Check in, relax, and drop off luggage",
+          "timeOfDay": "early afternoon",
+          "type": "lodging",
+          "location": "Courtyard Tokyo Ginza Hotel"
+        },
+        {
+          "id": "2026-08-12-teamlab",
+          "title": "teamLab Borderless",
+          "time": "16:00",
+          "timeLabel": "4:00 PM",
+          "type": "sightseeing",
+          "location": "MORI Building DIGITAL ART MUSEUM: teamLab Borderless",
+          "reservation": true,
+          "partySize": 4,
+          "notes": "Allow around two hours."
+        },
+        {
+          "id": "2026-08-12-tokyo-tower",
+          "title": "Walk to Tokyo Tower and explore",
+          "timeOfDay": "evening",
+          "type": "sightseeing",
+          "location": "Tokyo Tower",
+          "notes": "Best viewed after dark."
+        },
+        {
+          "id": "2026-08-12-dinner",
+          "title": "Dinner near Tokyo Tower",
+          "timeOfDay": "evening",
+          "type": "food",
+          "reservation": false
+        },
+        {
+          "id": "2026-08-12-taxi-hotel",
+          "title": "Taxi back to the hotel",
+          "timeOfDay": "night",
+          "type": "travel",
+          "notes": "Approximately 15 minutes."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-13",
+      "dayNumber": 7,
+      "title": "Tsukiji, Ginza, Kappabashi, and Asakusa",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-13-tsukiji",
+          "title": "Tsukiji Outer Market",
+          "time": "08:00",
+          "endTime": "10:30",
+          "timeLabel": "8:00–10:30 AM",
+          "type": "food",
+          "location": "Tsukiji Outer Market",
+          "address": "4 Chome Tsukiji, Chuo City, Tokyo",
+          "notes": "Go early to beat the crowds and sample multiple foods."
+        },
+        {
+          "id": "2026-08-13-ginza",
+          "title": "Explore Ginza",
+          "timeOfDay": "late morning",
+          "type": "shopping",
+          "location": "Ginza",
+          "notes": "Upscale shopping, air conditioning, cafes, and convenient facilities."
+        },
+        {
+          "id": "2026-08-13-age3",
+          "title": "Try a fried cream sandwich at Age.3",
+          "timeOfDay": "late morning",
+          "type": "food",
+          "location": "Ginza",
+          "optional": true
+        },
+        {
+          "id": "2026-08-13-cloud-matcha",
+          "title": "Try a matcha latte at Cloud Club Matcha",
+          "timeOfDay": "late morning",
+          "type": "food",
+          "location": "Ginza",
+          "optional": true
+        },
+        {
+          "id": "2026-08-13-itoya",
+          "title": "Visit Itoya stationery store",
+          "timeOfDay": "late morning",
+          "type": "shopping",
+          "location": "Ginza"
+        },
+        {
+          "id": "2026-08-13-kappabashi",
+          "title": "Explore Kappabashi Kitchen Town",
+          "timeOfDay": "afternoon",
+          "type": "shopping",
+          "location": "Kappabashi",
+          "notes": "Knives, ceramics, chopstick rests, matcha tools, and kitchen goods."
+        },
+        {
+          "id": "2026-08-13-asakusa",
+          "title": "Walk to Asakusa and visit Senso-ji",
+          "timeOfDay": "evening",
+          "type": "sightseeing",
+          "location": "Asakusa / Senso-ji",
+          "notes": "Temple grounds are open 24/7."
+        },
+        {
+          "id": "2026-08-13-dinner",
+          "title": "Dinner in Asakusa",
+          "timeOfDay": "evening",
+          "type": "food",
+          "reservation": false,
+          "notes": "Eat before or after visiting the temple depending on timing and hunger."
+        },
+        {
+          "id": "2026-08-13-return",
+          "title": "Return to the Ginza hotel",
+          "timeOfDay": "night",
+          "type": "travel",
+          "notes": "Taxi or subway."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-14",
+      "dayNumber": 8,
+      "title": "Kawagoe Day Trip",
+      "city": "Kawagoe",
+      "activities": [
+        {
+          "id": "2026-08-14-kawagoe-train",
+          "title": "Travel to Kawagoe",
+          "timeOfDay": "morning",
+          "type": "travel",
+          "notes": "Approximately 45–60 minutes from Tokyo. Route still needs to be finalized.",
+          "needsConfirmation": true
+        },
+        {
+          "id": "2026-08-14-kurazukuri",
+          "title": "Explore Kurazukuri Street",
+          "timeOfDay": "morning",
+          "type": "sightseeing",
+          "location": "Kurazukuri Street",
+          "notes": "Historic Edo-period warehouse district."
+        },
+        {
+          "id": "2026-08-14-candy-alley",
+          "title": "Visit Candy Alley",
+          "timeOfDay": "late morning",
+          "type": "food",
+          "location": "Kawagoe",
+          "notes": "Traditional Japanese sweets."
+        },
+        {
+          "id": "2026-08-14-miffy-kawagoe",
+          "title": "Visit the Miffy storehouse and bakery",
+          "timeOfDay": "late morning",
+          "type": "shopping",
+          "location": "Kawagoe"
+        },
+        {
+          "id": "2026-08-14-lunch",
+          "title": "Lunch in Kawagoe",
+          "timeOfDay": "midday",
+          "type": "food"
+        },
+        {
+          "id": "2026-08-14-return-tokyo",
+          "title": "Return to Tokyo",
+          "timeOfDay": "early afternoon",
+          "type": "travel",
+          "timeLabel": "Aim to arrive around 3:00 PM"
+        },
+        {
+          "id": "2026-08-14-cool-off",
+          "title": "Cool off and do something indoors",
+          "timeOfDay": "afternoon",
+          "type": "break",
+          "optional": true,
+          "needsConfirmation": true
+        },
+        {
+          "id": "2026-08-14-yamashina",
+          "title": "Dinner at Yamashina Ginza",
+          "time": "19:00",
+          "timeLabel": "7:00 PM",
+          "type": "food",
+          "location": "Yamashina Ginza",
+          "reservation": true,
+          "partySize": 4,
+          "notes": "Counter seating. Teppanyaki main restaurant Yamashina Iron Plate Kaiseki."
+        }
+      ]
+    },
+    {
+      "date": "2026-08-15",
+      "dayNumber": 9,
+      "title": "Departure from Tokyo",
+      "city": "Tokyo",
+      "activities": [
+        {
+          "id": "2026-08-15-breakfast",
+          "title": "Breakfast",
+          "timeOfDay": "morning",
+          "type": "food",
+          "checklist": true
+        },
+        {
+          "id": "2026-08-15-last-minute",
+          "title": "Last-minute purchases",
+          "timeOfDay": "morning",
+          "type": "shopping",
+          "optional": true
+        },
+        {
+          "id": "2026-08-15-checkout",
+          "title": "Check out of the hotel",
+          "timeOfDay": "late morning",
+          "type": "lodging",
+          "checklist": true
+        },
+        {
+          "id": "2026-08-15-haneda",
+          "title": "Travel to Haneda Airport",
+          "timeOfDay": "early afternoon",
+          "type": "travel",
+          "location": "Tokyo Haneda Airport",
+          "notes": "Approximately 30 minutes from the hotel."
+        },
+        {
+          "id": "2026-08-15-depart",
+          "title": "Depart Tokyo",
+          "time": "16:30",
+          "timeLabel": "4:30 PM",
+          "type": "travel",
+          "location": "Tokyo Haneda Airport",
+          "reservation": true
+        }
+      ]
+    }
+  ]
+}

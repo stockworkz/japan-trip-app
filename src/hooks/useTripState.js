@@ -32,24 +32,24 @@ function normalizeUserActivity(activity) {
   }
 }
 
-function mergeImportedActivities(importedActivityState) {
+function mergeImportedActivities(importedActivityState, completionState) {
   return itinerary.flatMap((day) =>
     day.activities.map((activity) => {
       const saved = importedActivityState[activity.id]
-      if (!saved) return { ...activity }
+      const isComplete = completionState[activity.id] ?? false
 
       return {
         ...activity,
-        status: saved.status ?? activity.status,
-        rating: saved.rating ?? activity.rating,
-        memory: saved.memory ?? activity.memory,
+        status: isComplete ? 'complete' : 'planned',
+        rating: saved?.rating ?? activity.rating,
+        memory: saved?.memory ?? activity.memory,
       }
     }),
   )
 }
 
-function buildAllActivities(importedActivityState, userActivities) {
-  const imported = mergeImportedActivities(importedActivityState)
+function buildAllActivities(importedActivityState, userActivities, completionState) {
+  const imported = mergeImportedActivities(importedActivityState, completionState)
   const user = userActivities.map(normalizeUserActivity)
   return sortActivities([...imported, ...user])
 }
@@ -76,7 +76,7 @@ function createEmptyForm(date, city) {
   }
 }
 
-export function useTripState() {
+export function useTripState(completionState = {}) {
   const [persisted, setPersisted] = useState(() => {
     const stored = loadState()
     return {
@@ -97,8 +97,9 @@ export function useTripState() {
       buildAllActivities(
         persisted.importedActivityState,
         persisted.userActivities,
+        completionState,
       ),
-    [persisted.importedActivityState, persisted.userActivities],
+    [persisted.importedActivityState, persisted.userActivities, completionState],
   )
 
   const days = useMemo(
@@ -171,11 +172,14 @@ export function useTripState() {
         return { ...prev, userActivities }
       }
 
+      // Only update rating and memory in local state (completion is in Supabase)
+      const { status, ...localUpdates } = updates
+      
       const importedActivityState = {
         ...prev.importedActivityState,
         [activityId]: {
           ...prev.importedActivityState[activityId],
-          ...updates,
+          ...localUpdates,
         },
       }
 
@@ -183,17 +187,11 @@ export function useTripState() {
     })
   }, [])
 
-  const toggleActivityComplete = useCallback(
-    (activityId) => {
-      const activity = allActivities.find((item) => item.id === activityId)
-      if (!activity) return
-
-      const nextStatus =
-        activity.status === 'complete' ? 'planned' : 'complete'
-      updateActivity(activityId, { status: nextStatus })
-    },
-    [allActivities, updateActivity],
-  )
+  // Note: toggleActivityComplete is now handled by the completion hook
+  // This function is kept for API compatibility but does nothing
+  const toggleActivityComplete = useCallback(() => {
+    // Completion is now managed by useActivityCompletion hook
+  }, [])
 
   const setActivityRating = useCallback(
     (activityId, rating) => {

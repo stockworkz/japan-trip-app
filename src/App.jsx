@@ -11,6 +11,7 @@ import ReflectionCard from './components/ReflectionCard'
 import TravelerName from './components/TravelerName'
 import TripHeader from './components/TripHeader'
 import { useAuth } from './hooks/useAuth'
+import { useActivityCompletion } from './hooks/useActivityCompletion'
 import { useTripState } from './hooks/useTripState'
 import { getFixedActivities } from './utils/activitySorting'
 import './App.css'
@@ -30,6 +31,12 @@ function activityToForm(activity) {
 
 function App() {
   const { user, loading: authLoading, error: authError, updateDisplayName } = useAuth()
+  const {
+    completionState,
+    loading: completionLoading,
+    error: completionError,
+    toggleCompletion,
+  } = useActivityCompletion(user)
   
   const {
     days,
@@ -43,7 +50,6 @@ function App() {
     setSelectedDate,
     goToPreviousDay,
     goToNextDay,
-    toggleActivityComplete,
     setActivityRating,
     setActivityMemory,
     addActivity,
@@ -51,7 +57,7 @@ function App() {
     deleteActivity,
     setReflection,
     createEmptyForm,
-  } = useTripState()
+  } = useTripState(completionState)
 
   const [formMode, setFormMode] = useState(null)
   const [editingActivity, setEditingActivity] = useState(null)
@@ -60,8 +66,21 @@ function App() {
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
 
+  async function handleToggleComplete(activityId) {
+    const activity = selectedDay.activities.find((a) => a.id === activityId)
+    if (!activity) return
+
+    const currentStatus = activity.status === 'complete'
+    const result = await toggleCompletion(activityId, currentStatus)
+
+    if (result.error) {
+      // Error is already logged and reverted in the hook
+      alert(`Failed to update activity: ${result.error}`)
+    }
+  }
+
   // Show loading state while auth initializes
-  if (authLoading) {
+  if (authLoading || completionLoading) {
     return (
       <div className="app">
         <div className="auth-loading">
@@ -72,13 +91,15 @@ function App() {
     )
   }
 
-  // Show error state if auth failed
-  if (authError) {
+  // Show error state if auth or completion loading failed
+  if (authError || completionError) {
     return (
       <div className="app">
         <div className="auth-error">
-          <p className="error-title">Authentication Error</p>
-          <p className="error-message">{authError}</p>
+          <p className="error-title">
+            {authError ? 'Authentication Error' : 'Loading Error'}
+          </p>
+          <p className="error-message">{authError || completionError}</p>
           <button
             type="button"
             className="btn btn-primary"
@@ -174,7 +195,7 @@ function App() {
                 <ActivityCard
                   key={activity.id}
                   activity={activity}
-                  onToggleComplete={toggleActivityComplete}
+                  onToggleComplete={handleToggleComplete}
                   onSetRating={setActivityRating}
                   onSetMemory={setActivityMemory}
                   onEdit={openEditForm}

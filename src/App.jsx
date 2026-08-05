@@ -7,11 +7,14 @@ import DaySelector from './components/DaySelector'
 import LodgingCard from './components/LodgingCard'
 import Modal from './components/Modal'
 import NextActivityCard from './components/NextActivityCard'
+import PhotoGallery from './components/PhotoGallery'
+import PhotoUpload from './components/PhotoUpload'
 import ReflectionCard from './components/ReflectionCard'
 import TravelerName from './components/TravelerName'
 import TripHeader from './components/TripHeader'
 import { useAuth } from './hooks/useAuth'
 import { useActivityCompletion } from './hooks/useActivityCompletion'
+import { usePhotoGallery } from './hooks/usePhotoGallery'
 import { useTripState } from './hooks/useTripState'
 import { getFixedActivities } from './utils/activitySorting'
 import './App.css'
@@ -59,9 +62,18 @@ function App() {
     createEmptyForm,
   } = useTripState(completionState)
 
+  const {
+    photos,
+    loading: photosLoading,
+    error: photosError,
+    deletePhoto,
+  } = usePhotoGallery(user)
+
+  const [activeTab, setActiveTab] = useState('today')
   const [formMode, setFormMode] = useState(null)
   const [editingActivity, setEditingActivity] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
+  const [showPhotoUpload, setShowPhotoUpload] = useState(false)
 
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
@@ -79,7 +91,7 @@ function App() {
     }
   }
 
-  // Show loading state while auth initializes
+  // Show loading state while auth and essential data initializes
   if (authLoading || completionLoading) {
     return (
       <div className="app">
@@ -90,6 +102,8 @@ function App() {
       </div>
     )
   }
+
+  // Photos can load in background, don't block app render
 
   // Show error state if auth or completion loading failed
   if (authError || completionError) {
@@ -157,31 +171,32 @@ function App() {
 
   return (
     <div className="app">
-      <main className="app-main">
-        <TripHeader selectedDay={selectedDay} tripProgress={tripProgress} />
-        
-        <TravelerName user={user} onUpdate={updateDisplayName} />
+      {activeTab === 'today' ? (
+        <main className="app-main">
+          <TripHeader selectedDay={selectedDay} tripProgress={tripProgress} />
+          
+          <TravelerName user={user} onUpdate={updateDisplayName} />
 
-        <DaySelector
-          days={days}
-          selectedDate={selectedDay.date}
-          dayIndex={dayIndex}
-          onSelectDate={setSelectedDate}
-          onPrevious={goToPreviousDay}
-          onNext={goToNextDay}
-        />
+          <DaySelector
+            days={days}
+            selectedDate={selectedDay.date}
+            dayIndex={dayIndex}
+            onSelectDate={setSelectedDate}
+            onPrevious={goToPreviousDay}
+            onNext={goToNextDay}
+          />
 
-        <LodgingCard lodging={selectedDay.lodging} />
+          <LodgingCard lodging={selectedDay.lodging} />
 
-        <NextActivityCard
-          activity={nextActivity}
-          isEmpty={isEmptyDay}
-          onAddActivity={openAddForm}
-        />
+          <NextActivityCard
+            activity={nextActivity}
+            isEmpty={isEmptyDay}
+            onAddActivity={openAddForm}
+          />
 
-        <AnchorsCard anchors={fixedActivities} />
+          <AnchorsCard anchors={fixedActivities} />
 
-        <section className="plan-section" aria-label="Today's plan">
+          <section className="plan-section" aria-label="Today's plan">
           <div className="section-header">
             <h2 className="section-title">Day plan</h2>
             <p className="day-progress">
@@ -216,15 +231,39 @@ function App() {
           </button>
         </section>
 
-        <ReflectionCard
-          date={selectedDay.date}
-          tripDates={tripDates}
-          answer={reflections[selectedDay.date] ?? ''}
-          onChange={setReflection}
-        />
-      </main>
+          <ReflectionCard
+            date={selectedDay.date}
+            tripDates={tripDates}
+            answer={reflections[selectedDay.date] ?? ''}
+            onChange={setReflection}
+          />
+        </main>
+      ) : activeTab === 'photos' ? (
+        <main className="app-main">
+          <div className="photo-header">
+            <h1 className="title">Trip Photos</h1>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => setShowPhotoUpload(true)}
+            >
+              Add Photo
+            </button>
+          </div>
 
-      <BottomNav activeTab="today" />
+          <PhotoGallery
+            photos={photos}
+            loading={photosLoading}
+            error={photosError}
+            tripDates={tripDates}
+            days={days}
+            user={user}
+            onDelete={deletePhoto}
+          />
+        </main>
+      ) : null}
+
+      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
 
       {formMode && (
         <Modal
@@ -263,6 +302,20 @@ function App() {
               Delete
             </button>
           </div>
+        </Modal>
+      )}
+
+      {showPhotoUpload && (
+        <Modal title="Add Photo" onClose={() => setShowPhotoUpload(false)}>
+          <PhotoUpload
+            user={user}
+            tripDates={tripDates}
+            days={days}
+            onClose={() => setShowPhotoUpload(false)}
+            onSuccess={() => {
+              // Photo uploaded successfully
+            }}
+          />
         </Modal>
       )}
     </div>

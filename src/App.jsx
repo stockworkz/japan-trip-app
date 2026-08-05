@@ -8,7 +8,9 @@ import LodgingCard from './components/LodgingCard'
 import Modal from './components/Modal'
 import NextActivityCard from './components/NextActivityCard'
 import ReflectionCard from './components/ReflectionCard'
+import TravelerName from './components/TravelerName'
 import TripHeader from './components/TripHeader'
+import { useAuth } from './hooks/useAuth'
 import { useTripState } from './hooks/useTripState'
 import { getFixedActivities } from './utils/activitySorting'
 import './App.css'
@@ -27,6 +29,8 @@ function activityToForm(activity) {
 }
 
 function App() {
+  const { user, loading: authLoading, error: authError, updateDisplayName } = useAuth()
+  
   const {
     days,
     tripDates,
@@ -55,6 +59,37 @@ function App() {
 
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
+
+  // Show loading state while auth initializes
+  if (authLoading) {
+    return (
+      <div className="app">
+        <div className="auth-loading">
+          <div className="loading-spinner" />
+          <p>Initializing...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state if auth failed
+  if (authError) {
+    return (
+      <div className="app">
+        <div className="auth-error">
+          <p className="error-title">Authentication Error</p>
+          <p className="error-message">{authError}</p>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   function openAddForm() {
     setEditingActivity(null)
@@ -103,6 +138,8 @@ function App() {
     <div className="app">
       <main className="app-main">
         <TripHeader selectedDay={selectedDay} tripProgress={tripProgress} />
+        
+        <TravelerName user={user} onUpdate={updateDisplayName} />
 
         <DaySelector
           days={days}

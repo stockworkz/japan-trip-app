@@ -32,6 +32,7 @@ export default function ActivityCard({
   onSetRating,
   onToggleFavorite,
   onSetMemory,
+  onAddPhoto,
   onEdit,
   onDelete,
   user,
@@ -168,6 +169,15 @@ export default function ActivityCard({
               ))}
             </div>
           )}
+
+          <button
+            type="button"
+            className="add-photo-btn"
+            onClick={() => onAddPhoto(activity)}
+            aria-label={`Add photo for ${activity.title}`}
+          >
+            📷 Add Photo
+          </button>
         </div>
       )}
     </li>

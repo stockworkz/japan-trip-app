@@ -2,11 +2,19 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { compressImage, generateStoragePath } from '../utils/imageCompression'
 
-export default function PhotoUpload({ user, tripDates, days, onClose, onSuccess }) {
+export default function PhotoUpload({
+  user,
+  tripDates,
+  days,
+  initialDayDate,
+  initialActivityId,
+  onClose,
+  onSuccess,
+}) {
   const [selectedFile, setSelectedFile] = useState(null)
   const [preview, setPreview] = useState(null)
-  const [dayDate, setDayDate] = useState(tripDates[0] || '')
-  const [activityId, setActivityId] = useState('')
+  const [dayDate, setDayDate] = useState(initialDayDate || tripDates[0] || '')
+  const [activityId, setActivityId] = useState(initialActivityId || '')
   const [caption, setCaption] = useState('')
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
@@ -94,7 +102,6 @@ export default function PhotoUpload({ user, tripDates, days, onClose, onSuccess 
           id="photo-file"
           type="file"
           accept="image/*"
-          capture="environment"
           onChange={handleFileSelect}
           disabled={uploading}
           required

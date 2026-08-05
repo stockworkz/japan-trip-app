@@ -100,6 +100,8 @@ function App() {
   const [editingActivity, setEditingActivity] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [showPhotoUpload, setShowPhotoUpload] = useState(false)
+  const [preselectedPhoto, setPreselectedPhoto] = useState(null)
+  const [photoUploadContext, setPhotoUploadContext] = useState(null)
 
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
@@ -165,6 +167,23 @@ function App() {
   function closeForm() {
     setFormMode(null)
     setEditingActivity(null)
+  }
+
+  function openPhotoUpload(activity = null) {
+    if (activity) {
+      setPreselectedPhoto({
+        dayDate: activity.date,
+        activityId: activity.id,
+      })
+    } else {
+      setPreselectedPhoto(null)
+    }
+    setShowPhotoUpload(true)
+  }
+
+  function closePhotoUpload() {
+    setShowPhotoUpload(false)
+    setPreselectedPhoto(null)
   }
 
   function handleFormSubmit(formData) {
@@ -244,6 +263,7 @@ function App() {
                   onSetRating={setRating}
                   onToggleFavorite={toggleFavorite}
                   onSetMemory={setMemory}
+                  onAddPhoto={openPhotoUpload}
                   onEdit={openEditForm}
                   onDelete={setDeleteTarget}
                   user={user}
@@ -342,15 +362,15 @@ function App() {
       )}
 
       {showPhotoUpload && (
-        <Modal title="Add Photo" onClose={() => setShowPhotoUpload(false)}>
+        <Modal title="Add Photo" onClose={closePhotoUpload}>
           <PhotoUpload
             user={user}
             tripDates={tripDates}
             days={days}
-            onClose={() => setShowPhotoUpload(false)}
-            onSuccess={() => {
-              // Photo uploaded successfully
-            }}
+            initialDayDate={preselectedPhoto?.dayDate}
+            initialActivityId={preselectedPhoto?.activityId}
+            onClose={closePhotoUpload}
+            onSuccess={closePhotoUpload}
           />
         </Modal>
       )}

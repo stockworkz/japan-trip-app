@@ -3,7 +3,7 @@ export default function BottomNav({ activeTab = 'today', onTabChange }) {
     { id: 'today', label: 'Today', enabled: true },
     { id: 'photos', label: 'Photos', enabled: true },
     { id: 'trip', label: 'Trip', enabled: false },
-    { id: 'wrapped', label: 'Wrapped', enabled: false },
+    { id: 'wrapped', label: 'Wrapped', enabled: true },
   ]
 
   return (

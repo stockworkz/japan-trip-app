@@ -12,11 +12,13 @@ import PhotoUpload from './components/PhotoUpload'
 import ReflectionCard from './components/ReflectionCard'
 import TravelerName from './components/TravelerName'
 import TripHeader from './components/TripHeader'
+import Wrapped from './components/Wrapped'
 import { useAuth } from './hooks/useAuth'
 import { useActivityCompletion } from './hooks/useActivityCompletion'
 import { useActivityFeedback } from './hooks/useActivityFeedback'
 import { usePhotoGallery } from './hooks/usePhotoGallery'
 import { useTripState } from './hooks/useTripState'
+import { useWrappedData } from './hooks/useWrappedData'
 import { getFixedActivities } from './utils/activitySorting'
 import './App.css'
 
@@ -45,15 +47,19 @@ function App() {
   const {
     loading: feedbackLoading,
     error: feedbackError,
+    allFeedback,
     getUserFeedback,
+    getAllMemories,
     getAverageRating,
     getFavoriteCount,
     setRating,
     toggleFavorite,
+    setMemory,
   } = useActivityFeedback(user)
   
   const {
     days,
+    allActivities,
     tripDates,
     selectedDay,
     dayIndex,
@@ -79,6 +85,15 @@ function App() {
     error: photosError,
     deletePhoto,
   } = usePhotoGallery(user)
+
+  const wrappedData = useWrappedData({
+    days,
+    allActivities,
+    completionState,
+    photos,
+    allFeedback,
+    user,
+  })
 
   const [activeTab, setActiveTab] = useState('today')
   const [formMode, setFormMode] = useState(null)
@@ -182,6 +197,10 @@ function App() {
 
   return (
     <div className="app">
+      {activeTab === 'wrapped' && (
+        <Wrapped wrappedData={wrappedData} />
+      )}
+
       {activeTab === 'today' ? (
         <main className="app-main">
           <TripHeader selectedDay={selectedDay} tripProgress={tripProgress} />
@@ -224,10 +243,12 @@ function App() {
                   onToggleComplete={handleToggleComplete}
                   onSetRating={setRating}
                   onToggleFavorite={toggleFavorite}
-                  onSetMemory={setActivityMemory}
+                  onSetMemory={setMemory}
                   onEdit={openEditForm}
                   onDelete={setDeleteTarget}
+                  user={user}
                   userFeedback={getUserFeedback(activity.id)}
+                  allMemories={getAllMemories(activity.id)}
                   averageRating={getAverageRating(activity.id)}
                   favoriteCount={getFavoriteCount(activity.id)}
                 />

@@ -34,7 +34,9 @@ export default function ActivityCard({
   onSetMemory,
   onEdit,
   onDelete,
+  user,
   userFeedback,
+  allMemories,
   averageRating,
   favoriteCount,
 }) {
@@ -43,6 +45,10 @@ export default function ActivityCard({
   const isUser = activity.source === 'user'
   const isFavorite = userFeedback?.is_favorite || false
   const userRating = userFeedback?.rating || null
+  const userMemory = userFeedback?.memory || ''
+
+  // Get other users' memories (not including current user)
+  const otherMemories = allMemories.filter((m) => m.userId !== user?.id)
 
   return (
     <li className={`activity-card${isComplete ? ' done' : ''}`}>
@@ -141,21 +147,27 @@ export default function ActivityCard({
             </button>
           </div>
           <label className="memory-label" htmlFor={`memory-${activity.id}`}>
-            Memory
+            Your memory
           </label>
           <textarea
             id={`memory-${activity.id}`}
             className="memory-input"
             rows={2}
             placeholder="One sentence about this moment..."
-            value={activity.memory}
-            onChange={(event) =>
-              onSetMemory(activity.id, event.target.value)
-            }
+            value={userMemory}
+            onChange={(e) => onSetMemory(activity.id, e.target.value)}
           />
-          <button type="button" className="photo-placeholder" disabled>
-            Add photo (coming soon)
-          </button>
+
+          {otherMemories.length > 0 && (
+            <div className="shared-memories">
+              <p className="shared-memories-label">Shared memories</p>
+              {otherMemories.map((memory, index) => (
+                <div key={`${memory.userId}-${index}`} className="shared-memory">
+                  <p className="shared-memory-text">{memory.memory}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </li>

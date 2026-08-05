@@ -35,13 +35,11 @@ function normalizeUserActivity(activity) {
 function mergeImportedActivities(importedActivityState, completionState) {
   return itinerary.flatMap((day) =>
     day.activities.map((activity) => {
-      const saved = importedActivityState[activity.id]
       const isComplete = completionState[activity.id] ?? false
 
       return {
         ...activity,
         status: isComplete ? 'complete' : 'planned',
-        memory: saved?.memory ?? activity.memory,
       }
     }),
   )
@@ -171,18 +169,9 @@ export function useTripState(completionState = {}) {
         return { ...prev, userActivities }
       }
 
-      // Only update memory in local state (completion and rating are in Supabase)
-      const { status, rating, ...localUpdates } = updates
-      
-      const importedActivityState = {
-        ...prev.importedActivityState,
-        [activityId]: {
-          ...prev.importedActivityState[activityId],
-          ...localUpdates,
-        },
-      }
-
-      return { ...prev, importedActivityState }
+      // Completion, rating, and memory are now all in Supabase
+      // Nothing to update in localStorage for imported activities
+      return prev
     })
   }, [])
 
@@ -198,12 +187,11 @@ export function useTripState(completionState = {}) {
     // Rating is now managed by useActivityFeedback hook
   }, [])
 
-  const setActivityMemory = useCallback(
-    (activityId, memory) => {
-      updateActivity(activityId, { memory })
-    },
-    [updateActivity],
-  )
+  // Note: setActivityMemory is now handled by the feedback hook
+  // This function is kept for API compatibility but does nothing
+  const setActivityMemory = useCallback(() => {
+    // Memory is now managed by useActivityFeedback hook
+  }, [])
 
   const addActivity = useCallback((formData) => {
     const title = formData.title.trim()
@@ -283,6 +271,7 @@ export function useTripState(completionState = {}) {
 
   return {
     days,
+    allActivities, // Added for Wrapped calculations
     tripDates: TRIP_DATES,
     selectedDay,
     dayIndex,

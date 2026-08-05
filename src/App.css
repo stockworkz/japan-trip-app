@@ -642,6 +642,59 @@ body {
   color: #8b8b9a;
 }
 
+.activity-nav {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-link {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.btn-nav {
+  color: #4f9aff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-nav:hover {
+  color: #70b0ff;
+  text-decoration: underline;
+}
+
+.btn-add-location {
+  color: #8b8b9a;
+}
+
+.btn-add-location:hover {
+  color: #c8c8d4;
+}
+
+.btn-edit-location {
+  color: #8b8b9a;
+  font-size: 0.75rem;
+}
+
+.btn-edit-location:hover {
+  color: #c8c8d4;
+}
+
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+}
+
 .activity-actions {
   display: flex;
   flex-direction: column;
@@ -980,10 +1033,23 @@ body {
   border-color: rgba(232, 76, 92, 0.5);
 }
 
+.field-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #8b8b9a;
+  line-height: 1.4;
+}
+
 .form-error {
   margin: 0;
   font-size: 0.875rem;
   color: #f87171;
+}
+
+.add-location-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .confirm-text {

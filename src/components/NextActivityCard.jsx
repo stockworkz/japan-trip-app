@@ -1,6 +1,13 @@
 import { formatActivityTime } from '../utils/activitySorting'
+import { getAppleMapsUrl, canNavigate } from '../utils/appleMaps'
 
-export default function NextActivityCard({ activity, onAddActivity, isEmpty }) {
+export default function NextActivityCard({ 
+  activity, 
+  sharedLocation,
+  onAddActivity, 
+  onAddLocation,
+  isEmpty 
+}) {
   if (isEmpty) {
     return (
       <section className="next-card" aria-label="Next up">
@@ -26,6 +33,8 @@ export default function NextActivityCard({ activity, onAddActivity, isEmpty }) {
   }
 
   const timeLabel = formatActivityTime(activity)
+  const mapsUrl = getAppleMapsUrl(activity, sharedLocation)
+  const hasDestination = canNavigate(activity, sharedLocation)
 
   return (
     <section className="next-card" aria-label="Next up">
@@ -37,9 +46,36 @@ export default function NextActivityCard({ activity, onAddActivity, isEmpty }) {
         {activity.location && <span>{activity.location}</span>}
       </div>
       <div className="button-row">
-        <button type="button" className="btn btn-primary">
-          Navigate
-        </button>
+        {hasDestination ? (
+          <>
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
+              Open in Apple Maps
+            </a>
+            {sharedLocation && (
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={() => onAddLocation(activity)}
+                title="Edit address"
+              >
+                Edit
+              </button>
+            )}
+          </>
+        ) : (
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => onAddLocation(activity)}
+          >
+            Add Address
+          </button>
+        )}
         <button type="button" className="btn btn-secondary">
           Details
         </button>

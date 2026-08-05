@@ -1,4 +1,5 @@
 import { formatActivityTime } from '../utils/activitySorting'
+import { getAppleMapsUrl, canNavigate } from '../utils/appleMaps'
 
 function StarRating({ rating, averageRating, ratingCount, onChange }) {
   return (
@@ -28,11 +29,13 @@ function StarRating({ rating, averageRating, ratingCount, onChange }) {
 
 export default function ActivityCard({
   activity,
+  sharedLocation,
   onToggleComplete,
   onSetRating,
   onToggleFavorite,
   onSetMemory,
   onAddPhoto,
+  onAddLocation,
   onEdit,
   onDelete,
   user,
@@ -50,6 +53,10 @@ export default function ActivityCard({
 
   // Get other users' memories (not including current user)
   const otherMemories = allMemories.filter((m) => m.userId !== user?.id)
+
+  // Navigation
+  const mapsUrl = getAppleMapsUrl(activity, sharedLocation)
+  const hasDestination = canNavigate(activity, sharedLocation)
 
   return (
     <li className={`activity-card${isComplete ? ' done' : ''}`}>
@@ -101,6 +108,39 @@ export default function ActivityCard({
           {activity.notes && (
             <p className="activity-notes">{activity.notes}</p>
           )}
+
+          {/* Navigation controls */}
+          <div className="activity-nav">
+            {hasDestination ? (
+              <>
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-link btn-nav"
+                >
+                  📍 Open in Apple Maps
+                </a>
+                {sharedLocation && (
+                  <button
+                    type="button"
+                    className="btn-link btn-edit-location"
+                    onClick={() => onAddLocation(activity)}
+                  >
+                    Edit
+                  </button>
+                )}
+              </>
+            ) : (
+              <button
+                type="button"
+                className="btn-link btn-add-location"
+                onClick={() => onAddLocation(activity)}
+              >
+                + Add Address
+              </button>
+            )}
+          </div>
         </div>
 
         {isUser && (

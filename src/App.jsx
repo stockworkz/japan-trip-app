@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ActivityCard from './components/ActivityCard'
 import ActivityForm from './components/ActivityForm'
+import AddLocationModal from './components/AddLocationModal'
 import AnchorsCard from './components/AnchorsCard'
 import BottomNav from './components/BottomNav'
 import DaySelector from './components/DaySelector'
@@ -16,6 +17,7 @@ import Wrapped from './components/Wrapped'
 import { useAuth } from './hooks/useAuth'
 import { useActivityCompletion } from './hooks/useActivityCompletion'
 import { useActivityFeedback } from './hooks/useActivityFeedback'
+import { useActivityLocations } from './hooks/useActivityLocations'
 import { usePhotoGallery } from './hooks/usePhotoGallery'
 import { useTripState } from './hooks/useTripState'
 import { useWrappedData } from './hooks/useWrappedData'
@@ -86,6 +88,14 @@ function App() {
     deletePhoto,
   } = usePhotoGallery(user)
 
+  const {
+    locations,
+    loading: locationsLoading,
+    error: locationsError,
+    getLocation,
+    saveLocation,
+  } = useActivityLocations(user)
+
   const wrappedData = useWrappedData({
     days,
     allActivities,
@@ -102,6 +112,7 @@ function App() {
   const [showPhotoUpload, setShowPhotoUpload] = useState(false)
   const [preselectedPhoto, setPreselectedPhoto] = useState(null)
   const [photoUploadContext, setPhotoUploadContext] = useState(null)
+  const [locationActivity, setLocationActivity] = useState(null)
 
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
@@ -117,6 +128,14 @@ function App() {
       // Error is already logged and reverted in the hook
       alert(`Failed to update activity: ${result.error}`)
     }
+  }
+
+  function openLocationModal(activity) {
+    setLocationActivity(activity)
+  }
+
+  function closeLocationModal() {
+    setLocationActivity(null)
   }
 
   // Show loading state while auth and essential data initializes
@@ -239,8 +258,10 @@ function App() {
 
           <NextActivityCard
             activity={nextActivity}
+            sharedLocation={nextActivity ? getLocation(nextActivity.id) : null}
             isEmpty={isEmptyDay}
             onAddActivity={openAddForm}
+            onAddLocation={openLocationModal}
           />
 
           <AnchorsCard anchors={fixedActivities} />
@@ -259,11 +280,13 @@ function App() {
                 <ActivityCard
                   key={activity.id}
                   activity={activity}
+                  sharedLocation={getLocation(activity.id)}
                   onToggleComplete={handleToggleComplete}
                   onSetRating={setRating}
                   onToggleFavorite={toggleFavorite}
                   onSetMemory={setMemory}
                   onAddPhoto={openPhotoUpload}
+                  onAddLocation={openLocationModal}
                   onEdit={openEditForm}
                   onDelete={setDeleteTarget}
                   user={user}
@@ -371,6 +394,20 @@ function App() {
             initialActivityId={preselectedPhoto?.activityId}
             onClose={closePhotoUpload}
             onSuccess={closePhotoUpload}
+          />
+        </Modal>
+      )}
+
+      {locationActivity && (
+        <Modal 
+          title={getLocation(locationActivity.id) ? 'Edit Address' : 'Add Address'} 
+          onClose={closeLocationModal}
+        >
+          <AddLocationModal
+            activity={locationActivity}
+            existingLocation={getLocation(locationActivity.id)}
+            onSave={saveLocation}
+            onClose={closeLocationModal}
           />
         </Modal>
       )}

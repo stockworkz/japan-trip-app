@@ -205,11 +205,61 @@ CREATE POLICY "Users can delete their own activity feedback"
   USING (auth.uid() = user_id);
 
 -- ============================================================
+-- Activity Locations (Shared Navigation Addresses)
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS activity_locations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  activity_id TEXT UNIQUE NOT NULL,
+  address TEXT,
+  apple_maps_url TEXT,
+  updated_by UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Add index for faster lookups
+CREATE INDEX IF NOT EXISTS idx_activity_locations_activity_id 
+  ON activity_locations(activity_id);
+
+-- Enable Row Level Security
+ALTER TABLE activity_locations ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies if they exist (makes SQL rerunnable)
+DROP POLICY IF EXISTS "Anyone authenticated can read activity locations" ON activity_locations;
+DROP POLICY IF EXISTS "Authenticated users can insert activity locations" ON activity_locations;
+DROP POLICY IF EXISTS "Authenticated users can update activity locations" ON activity_locations;
+
+-- RLS Policies for activity locations
+
+-- Policy: Anyone authenticated can read all shared locations
+CREATE POLICY "Anyone authenticated can read activity locations"
+  ON activity_locations
+  FOR SELECT
+  TO authenticated
+  USING (true);
+
+-- Policy: Authenticated users can insert locations
+CREATE POLICY "Authenticated users can insert activity locations"
+  ON activity_locations
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = updated_by);
+
+-- Policy: Authenticated users can update any location
+CREATE POLICY "Authenticated users can update activity locations"
+  ON activity_locations
+  FOR UPDATE
+  TO authenticated
+  USING (true)
+  WITH CHECK (auth.uid() = updated_by);
+
+-- ============================================================
 -- Future Tables
 -- ============================================================
 -- Future tables will be added here as features are implemented
 
 
+-- DEPRECATED: The following duplicated content should be removed
 -- Add indexes for faster queries
 CREATE INDEX IF NOT EXISTS idx_activity_feedback_activity_id 
   ON activity_feedback(activity_id);

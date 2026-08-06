@@ -86,7 +86,8 @@ function transformActivity(activity, dayDate, dayCity, sortOrder) {
     scheduleType,
     sortOrder,
     optional: activity.optional === true,
-    needsConfirmation: activity.needsConfirmation === true
+    needsConfirmation: activity.needsConfirmation === true,
+    reservation: activity.reservation === true
   }
 }
 

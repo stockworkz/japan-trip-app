@@ -13,6 +13,7 @@ import PhotoUpload from './components/PhotoUpload'
 import ReflectionCard from './components/ReflectionCard'
 import TravelerName from './components/TravelerName'
 import TripHeader from './components/TripHeader'
+import TripHub from './components/TripHub'
 import Wrapped from './components/Wrapped'
 import { useAuth } from './hooks/useAuth'
 import { useActivityCompletion } from './hooks/useActivityCompletion'
@@ -340,6 +341,15 @@ function App() {
             onDelete={deletePhoto}
           />
         </main>
+      ) : activeTab === 'trip' ? (
+        <TripHub
+          allActivities={allActivities}
+          completionState={completionState}
+          getLocation={getLocation}
+          onAddLocation={openLocationModal}
+        />
+      ) : activeTab === 'wrapped' ? (
+        <Wrapped wrappedData={wrappedData} />
       ) : null}
 
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

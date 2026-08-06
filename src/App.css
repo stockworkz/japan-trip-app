@@ -1918,3 +1918,551 @@ body {
   font-size: 4rem;
   margin: 0;
 }
+
+/* ============================================================
+   Trip Hub
+   ============================================================ */
+
+.trip-hub {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 24px 20px calc(24px + 60px);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.trip-bottom-spacer {
+  height: 20px;
+}
+
+/* Trip Overview */
+
+.trip-overview {
+  text-align: center;
+}
+
+.trip-title {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f0f0f5;
+}
+
+.trip-dates {
+  margin: 0 0 24px;
+  font-size: 1rem;
+  color: #8b8b9a;
+}
+
+.trip-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.trip-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e84c5c;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #8b8b9a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.trip-route {
+  margin: 0 0 20px;
+  font-size: 0.9375rem;
+  color: #c8c8d4;
+}
+
+.route-label {
+  color: #8b8b9a;
+  font-weight: 600;
+}
+
+.trip-completion {
+  margin-top: 24px;
+}
+
+.completion-bar-container {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.completion-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e84c5c, #ff6b7a);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.completion-text {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8b8b9a;
+}
+
+/* Trip Sections */
+
+.trip-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f0f0f5;
+}
+
+.empty-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #8b8b9a;
+  font-style: italic;
+}
+
+/* Lodging Cards */
+
+.lodging-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lodging-card {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lodging-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lodging-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f0f0f5;
+}
+
+.lodging-dates {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8b8b9a;
+}
+
+.lodging-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lodging-city,
+.lodging-checkin {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #c8c8d4;
+}
+
+.lodging-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lodging-link {
+  color: #4f9aff;
+}
+
+/* Transport Cards */
+
+.transport-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transport-card {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transport-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.transport-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.transport-title-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.transport-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f0f0f5;
+}
+
+.transport-time {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8b8b9a;
+}
+
+.transport-location {
+  margin: 0;
+  padding-left: 44px;
+  font-size: 0.875rem;
+  color: #c8c8d4;
+}
+
+.transport-details {
+  padding-left: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.transport-detail-row {
+  display: flex;
+  gap: 8px;
+  font-size: 0.875rem;
+}
+
+.detail-label {
+  color: #8b8b9a;
+  font-weight: 600;
+  min-width: 60px;
+}
+
+.detail-value {
+  color: #c8c8d4;
+}
+
+/* Reservations */
+
+.reservation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reservation-item {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.reservation-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.reservation-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.reservation-time {
+  font-size: 0.75rem;
+  color: #8b8b9a;
+  font-weight: 600;
+}
+
+.reservation-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: rgba(76, 175, 80, 0.15);
+  color: #66bb6a;
+}
+
+.reservation-title {
+  margin: 0 0 4px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #f0f0f5;
+}
+
+.reservation-location {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8b8b9a;
+}
+
+.reservation-nav-link {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.reservation-nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Currency Converter */
+
+.currency-converter {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.converter-loading,
+.converter-error {
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-text,
+.error-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #8b8b9a;
+}
+
+.error-detail {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  color: #f87171;
+}
+
+.converter-rate {
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rate-display {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4f9aff;
+}
+
+.rate-date {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #8b8b9a;
+}
+
+.converter-inputs {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.converter-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.converter-field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #8b8b9a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.converter-field input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.25);
+  color: #f0f0f5;
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.converter-field input:focus {
+  outline: none;
+  border-color: rgba(79, 154, 255, 0.5);
+}
+
+.converter-field input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.swap-btn {
+  width: 40px;
+  height: 48px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #c8c8d4;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.swap-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.quick-amounts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.quick-label {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #8b8b9a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.quick-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-btn {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #c8c8d4;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.quick-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f0f0f5;
+}
+
+/* Useful Links */
+
+.useful-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.useful-link-card {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.useful-link-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
+}
+
+.useful-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.useful-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.useful-title {
+  margin: 0 0 2px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #f0f0f5;
+}
+
+.useful-description {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #8b8b9a;
+}

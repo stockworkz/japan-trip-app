@@ -78,29 +78,39 @@ export function usePhotoGallery(user) {
 
   async function deletePhoto(photoId, storagePath) {
     if (!user) {
-      return { error: 'No user logged in' }
+      console.error('Delete failed: No user logged in')
+      return { error: 'You must be logged in to delete photos' }
     }
 
     try {
-      // Delete from storage
+      // Step 1: Delete from Supabase Storage
       const { error: storageError } = await supabase.storage
         .from('trip-photos')
         .remove([storagePath])
 
-      if (storageError) throw storageError
+      if (storageError) {
+        console.error('Storage deletion failed:', storageError)
+        throw new Error(`Failed to delete file: ${storageError.message}`)
+      }
 
-      // Delete metadata
+      // Step 2: Delete metadata from database
       const { error: dbError } = await supabase
         .from('trip_photos')
         .delete()
         .eq('id', photoId)
+        .eq('uploader_id', user.id) // Double-check ownership
 
-      if (dbError) throw dbError
+      if (dbError) {
+        console.error('Database deletion failed:', dbError)
+        throw new Error(`Failed to delete photo record: ${dbError.message}`)
+      }
 
       return { error: null }
     } catch (err) {
-      console.error('Error deleting photo:', err)
-      return { error: err.message }
+      console.error('Photo deletion error:', err)
+      return { 
+        error: err.message || 'Failed to delete photo. Please try again.'
+      }
     }
   }
 

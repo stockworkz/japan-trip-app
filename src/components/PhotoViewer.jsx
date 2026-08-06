@@ -1,10 +1,22 @@
+import { useState } from 'react'
+
 export default function PhotoViewer({ photo, day, user, onClose, onDelete }) {
+  const [deleting, setDeleting] = useState(false)
   const isOwner = photo.uploader_id === user?.id
   const uploadDate = new Date(photo.created_at)
 
-  function handleDelete() {
-    if (window.confirm('Delete this photo? This cannot be undone.')) {
-      onDelete(photo.id, photo.storage_path)
+  async function handleDelete() {
+    if (!window.confirm('Delete this photo? This cannot be undone.')) {
+      return
+    }
+
+    setDeleting(true)
+    const result = await onDelete(photo.id, photo.storage_path)
+    
+    if (result.error) {
+      alert(`Delete failed: ${result.error}`)
+      setDeleting(false)
+    } else {
       onClose()
     }
   }
@@ -42,8 +54,9 @@ export default function PhotoViewer({ photo, day, user, onClose, onDelete }) {
               type="button"
               className="btn btn-danger photo-viewer-delete"
               onClick={handleDelete}
+              disabled={deleting}
             >
-              Delete Photo
+              {deleting ? 'Deleting...' : 'Delete Photo'}
             </button>
           )}
         </div>

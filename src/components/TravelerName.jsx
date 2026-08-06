@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function TravelerName({ user, onUpdate }) {
+export default function TravelerName({ user, onUpdate, onReplayTour }) {
   const [isEditing, setIsEditing] = useState(false)
   const [displayName, setDisplayName] = useState(
     user?.user_metadata?.display_name || ''
@@ -75,6 +75,16 @@ export default function TravelerName({ user, onUpdate }) {
       >
         Edit
       </button>
+      {onReplayTour && (
+        <button 
+          type="button" 
+          className="traveler-tour-btn" 
+          onClick={onReplayTour}
+          aria-label="Replay app tour"
+        >
+          Tour
+        </button>
+      )}
     </div>
   )
 }

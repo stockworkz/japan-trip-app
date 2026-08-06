@@ -76,9 +76,6 @@ export default function NextActivityCard({
             Add Address
           </button>
         )}
-        <button type="button" className="btn btn-secondary">
-          Details
-        </button>
       </div>
     </section>
   )

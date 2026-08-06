@@ -108,23 +108,33 @@ CREATE POLICY "Users can delete their own trip photos"
 -- Storage Bucket for Trip Photos
 -- ============================================================
 
--- Note: Storage bucket creation must be done via Supabase Dashboard or API
--- Bucket name: trip-photos
--- Settings:
---   - Public: true (for read access)
---   - File size limit: 5MB
---   - Allowed MIME types: image/*
-
--- Storage Policies (apply these in Supabase Dashboard under Storage > Policies):
-
--- Policy: Public read access to all trip photos
--- SELECT: bucket_id = 'trip-photos'
-
--- Policy: Authenticated users can upload photos
--- INSERT: bucket_id = 'trip-photos' AND auth.role() = 'authenticated'
-
--- Policy: Users can only delete their own photos
--- DELETE: bucket_id = 'trip-photos' AND (storage.foldername(name))[1] = auth.uid()::text
+-- IMPORTANT: Storage bucket and policies must be configured manually in Supabase Dashboard
+-- 
+-- 1. Create bucket (Storage > New bucket):
+--    Name: trip-photos
+--    Public: true (for read access)
+--    File size limit: 5MB
+--    Allowed MIME types: image/*
+--
+-- 2. Create Storage Policies (Storage > trip-photos > Policies):
+--
+--    Policy 1: "Public read access"
+--    Operation: SELECT
+--    Policy definition:
+--      bucket_id = 'trip-photos'
+--
+--    Policy 2: "Authenticated users can upload"  
+--    Operation: INSERT
+--    Policy definition:
+--      bucket_id = 'trip-photos' AND auth.role() = 'authenticated'
+--
+--    Policy 3: "Users can delete own photos"
+--    Operation: DELETE
+--    Policy definition:
+--      bucket_id = 'trip-photos' AND (storage.foldername(name))[1] = auth.uid()::text
+--
+-- Upload path format: {userId}/{timestamp}-{random}.{ext}
+-- The policy checks that the first folder name equals the user's ID
 
 -- ============================================================
 -- Activity Feedback Table (Ratings, Favorites, and Memories)

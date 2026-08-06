@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ActivityCard from './components/ActivityCard'
 import ActivityForm from './components/ActivityForm'
 import AddLocationModal from './components/AddLocationModal'
 import AnchorsCard from './components/AnchorsCard'
+import AppTour from './components/AppTour'
 import BottomNav from './components/BottomNav'
 import DaySelector from './components/DaySelector'
 import LodgingCard from './components/LodgingCard'
@@ -23,6 +24,7 @@ import { usePhotoGallery } from './hooks/usePhotoGallery'
 import { useTripState } from './hooks/useTripState'
 import { useWrappedData } from './hooks/useWrappedData'
 import { getFixedActivities } from './utils/activitySorting'
+import { APP_TOUR_VERSION, TOUR_VERSION_KEY } from './constants/appVersion'
 import './App.css'
 
 function activityToForm(activity) {
@@ -114,9 +116,33 @@ function App() {
   const [preselectedPhoto, setPreselectedPhoto] = useState(null)
   const [photoUploadContext, setPhotoUploadContext] = useState(null)
   const [locationActivity, setLocationActivity] = useState(null)
+  const [showTour, setShowTour] = useState(false)
+  
+  // Track if we've already checked tour version (prevents reopening on rerenders)
+  const tourCheckComplete = useRef(false)
 
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
+
+  // Check if tour should be shown (once after auth completes)
+  useEffect(() => {
+    if (authLoading || tourCheckComplete.current) return
+    
+    tourCheckComplete.current = true
+    
+    const storedVersion = localStorage.getItem(TOUR_VERSION_KEY)
+    if (storedVersion !== APP_TOUR_VERSION) {
+      setShowTour(true)
+    }
+  }, [authLoading])
+
+  function openTour() {
+    setShowTour(true)
+  }
+
+  function closeTour() {
+    setShowTour(false)
+  }
 
   async function handleToggleComplete(activityId) {
     const activity = selectedDay.activities.find((a) => a.id === activityId)
@@ -244,7 +270,7 @@ function App() {
         <main className="app-main">
           <TripHeader selectedDay={selectedDay} tripProgress={tripProgress} />
           
-          <TravelerName user={user} onUpdate={updateDisplayName} />
+          <TravelerName user={user} onUpdate={updateDisplayName} onReplayTour={openTour} />
 
           <DaySelector
             days={days}
@@ -420,6 +446,10 @@ function App() {
             onClose={closeLocationModal}
           />
         </Modal>
+      )}
+
+      {showTour && (
+        <AppTour onClose={closeTour} onSwitchTab={setActiveTab} />
       )}
     </div>
   )

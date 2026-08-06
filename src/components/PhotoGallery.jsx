@@ -91,10 +91,15 @@ export default function PhotoGallery({
                   <button
                     type="button"
                     className="photo-delete-btn"
-                    onClick={(e) => {
+                    onClick={async (e) => {
                       e.stopPropagation()
-                      if (window.confirm('Delete this photo?')) {
-                        onDelete(photo.id, photo.storage_path)
+                      if (!window.confirm('Delete this photo? This cannot be undone.')) {
+                        return
+                      }
+                      
+                      const result = await onDelete(photo.id, photo.storage_path)
+                      if (result.error) {
+                        alert(`Delete failed: ${result.error}`)
                       }
                     }}
                   >

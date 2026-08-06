@@ -2466,3 +2466,149 @@ body {
   font-size: 0.8125rem;
   color: #8b8b9a;
 }
+
+/* ============================================================
+   App Tour
+   ============================================================ */
+
+.tour-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 300;
+  padding: 16px;
+}
+
+@media (min-width: 480px) {
+  .tour-backdrop {
+    align-items: center;
+  }
+}
+
+.tour-modal {
+  width: 100%;
+  max-width: 430px;
+  max-height: 85dvh;
+  background: #1a1a24;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px 20px 16px 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+@media (min-width: 480px) {
+  .tour-modal {
+    border-radius: 20px;
+  }
+}
+
+.tour-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tour-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f0f0f5;
+}
+
+.tour-close {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0f0f5;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tour-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tour-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tour-paragraph {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #c8c8d4;
+}
+
+.tour-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.tour-progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-progress-dot {
+    transition: none;
+  }
+}
+
+.tour-progress-dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: #e84c5c;
+}
+
+.tour-controls {
+  display: flex;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.tour-controls .btn {
+  flex: 1;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Traveler Name Tour Button */
+
+.traveler-tour-btn {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #8b8b9a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.traveler-tour-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #c8c8d4;
+}

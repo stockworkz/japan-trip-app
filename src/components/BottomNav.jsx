@@ -1,4 +1,4 @@
-export default function BottomNav({ activeTab = 'today', onTabChange }) {
+export default function BottomNav({ activeTab = 'today', onTabChange, disabled = false }) {
   const tabs = [
     { id: 'today', label: 'Today', enabled: true },
     { id: 'photos', label: 'Photos', enabled: true },
@@ -13,9 +13,9 @@ export default function BottomNav({ activeTab = 'today', onTabChange }) {
           key={tab.id}
           type="button"
           className={`bottom-nav-item${activeTab === tab.id ? ' active' : ''}`}
-          disabled={!tab.enabled}
+          disabled={!tab.enabled || disabled}
           aria-current={activeTab === tab.id ? 'page' : undefined}
-          onClick={() => tab.enabled && onTabChange(tab.id)}
+          onClick={() => !disabled && tab.enabled && onTabChange(tab.id)}
         >
           {tab.label}
         </button>

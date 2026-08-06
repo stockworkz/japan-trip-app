@@ -1,7 +1,16 @@
 import { useState } from 'react'
 
-export default function TravelerName({ user, onUpdate, onReplayTour }) {
+export default function TravelerName({ 
+  user, 
+  onUpdate, 
+  onReplayTour,
+  forceEditing = false,
+  onCloseEditing
+}) {
   const [isEditing, setIsEditing] = useState(false)
+  
+  // Force editing mode when prompted from tour
+  const editing = isEditing || forceEditing
   const [displayName, setDisplayName] = useState(
     user?.user_metadata?.display_name || ''
   )
@@ -18,15 +27,21 @@ export default function TravelerName({ user, onUpdate, onReplayTour }) {
 
     if (!error) {
       setIsEditing(false)
+      if (onCloseEditing) {
+        onCloseEditing()
+      }
     }
   }
 
   function handleCancel() {
     setDisplayName(currentName)
     setIsEditing(false)
+    if (onCloseEditing) {
+      onCloseEditing()
+    }
   }
 
-  if (isEditing) {
+  if (editing) {
     return (
       <div className="traveler-name editing">
         <input

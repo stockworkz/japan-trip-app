@@ -2,7 +2,7 @@
  * App tour version
  * Increment this when you want to show the tour again to existing users
  */
-export const APP_TOUR_VERSION = '2026-08-07-v1'
+export const APP_TOUR_VERSION = '2026-08-07-v2'
 
 /**
  * localStorage key for storing completed tour version

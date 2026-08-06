@@ -117,9 +117,13 @@ function App() {
   const [photoUploadContext, setPhotoUploadContext] = useState(null)
   const [locationActivity, setLocationActivity] = useState(null)
   const [showTour, setShowTour] = useState(false)
+  const [showIdentityPrompt, setShowIdentityPrompt] = useState(false)
   
   // Track if we've already checked tour version (prevents reopening on rerenders)
   const tourCheckComplete = useRef(false)
+  
+  // Demo mode - prevents mutations during tour
+  const isTourActive = showTour
 
   const isEmptyDay = selectedDay.activities.length === 0
   const fixedActivities = getFixedActivities(selectedDay.activities)
@@ -142,6 +146,16 @@ function App() {
 
   function closeTour() {
     setShowTour(false)
+    // Return to Today tab after tour
+    setActiveTab('today')
+  }
+
+  function openIdentityPrompt() {
+    setShowIdentityPrompt(true)
+  }
+
+  function closeIdentityPrompt() {
+    setShowIdentityPrompt(false)
   }
 
   async function handleToggleComplete(activityId) {
@@ -270,7 +284,13 @@ function App() {
         <main className="app-main">
           <TripHeader selectedDay={selectedDay} tripProgress={tripProgress} />
           
-          <TravelerName user={user} onUpdate={updateDisplayName} onReplayTour={openTour} />
+          <TravelerName 
+          user={user} 
+          onUpdate={updateDisplayName} 
+          onReplayTour={openTour}
+          forceEditing={showIdentityPrompt}
+          onCloseEditing={closeIdentityPrompt}
+        />
 
           <DaySelector
             days={days}
@@ -289,6 +309,7 @@ function App() {
             isEmpty={isEmptyDay}
             onAddActivity={openAddForm}
             onAddLocation={openLocationModal}
+            isTourActive={isTourActive}
           />
 
           <AnchorsCard anchors={fixedActivities} />
@@ -321,6 +342,7 @@ function App() {
                   allMemories={getAllMemories(activity.id)}
                   averageRating={getAverageRating(activity.id)}
                   favoriteCount={getFavoriteCount(activity.id)}
+                  isTourActive={isTourActive}
                 />
               ))}
             </ul>
@@ -332,6 +354,7 @@ function App() {
             type="button"
             className="btn btn-secondary add-activity-btn"
             onClick={openAddForm}
+            disabled={isTourActive}
           >
             Add Activity
           </button>
@@ -352,6 +375,7 @@ function App() {
               type="button"
               className="btn btn-primary"
               onClick={() => setShowPhotoUpload(true)}
+              disabled={isTourActive}
             >
               Add Photo
             </button>
@@ -365,6 +389,7 @@ function App() {
             days={days}
             user={user}
             onDelete={deletePhoto}
+            isTourActive={isTourActive}
           />
         </main>
       ) : activeTab === 'trip' ? (
@@ -378,7 +403,11 @@ function App() {
         <Wrapped wrappedData={wrappedData} />
       ) : null}
 
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+      <BottomNav 
+        activeTab={activeTab} 
+        onTabChange={setActiveTab} 
+        disabled={isTourActive}
+      />
 
       {formMode && (
         <Modal
@@ -449,7 +478,11 @@ function App() {
       )}
 
       {showTour && (
-        <AppTour onClose={closeTour} onSwitchTab={setActiveTab} />
+        <AppTour 
+          onClose={closeTour} 
+          onSwitchTab={setActiveTab}
+          onOpenSignIn={openIdentityPrompt}
+        />
       )}
     </div>
   )

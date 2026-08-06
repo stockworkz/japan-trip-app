@@ -6,14 +6,20 @@ export default function NextActivityCard({
   sharedLocation,
   onAddActivity, 
   onAddLocation,
-  isEmpty 
+  isEmpty,
+  isTourActive = false
 }) {
   if (isEmpty) {
     return (
       <section className="next-card" aria-label="Next up">
         <p className="next-label">Next Up</p>
         <p className="next-activity">No activities planned yet.</p>
-        <button type="button" className="btn btn-primary" onClick={onAddActivity}>
+        <button 
+          type="button" 
+          className="btn btn-primary" 
+          onClick={onAddActivity}
+          disabled={isTourActive}
+        >
           Add Activity
         </button>
       </section>
@@ -60,8 +66,9 @@ export default function NextActivityCard({
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={() => onAddLocation(activity)}
+                onClick={() => !isTourActive && onAddLocation(activity)}
                 title="Edit address"
+                disabled={isTourActive}
               >
                 Edit
               </button>
@@ -71,7 +78,8 @@ export default function NextActivityCard({
           <button
             type="button"
             className="btn btn-primary"
-            onClick={() => onAddLocation(activity)}
+            onClick={() => !isTourActive && onAddLocation(activity)}
+            disabled={isTourActive}
           >
             Add Address
           </button>

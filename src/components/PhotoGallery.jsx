@@ -9,6 +9,7 @@ export default function PhotoGallery({
   days,
   user,
   onDelete,
+  isTourActive = false,
 }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null)
   const [filterDay, setFilterDay] = useState('')
@@ -93,6 +94,7 @@ export default function PhotoGallery({
                     className="photo-delete-btn"
                     onClick={async (e) => {
                       e.stopPropagation()
+                      if (isTourActive) return
                       if (!window.confirm('Delete this photo? This cannot be undone.')) {
                         return
                       }
@@ -102,6 +104,7 @@ export default function PhotoGallery({
                         alert(`Delete failed: ${result.error}`)
                       }
                     }}
+                    disabled={isTourActive}
                   >
                     Delete
                   </button>

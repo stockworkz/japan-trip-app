@@ -1,7 +1,7 @@
 import { formatActivityTime } from '../utils/activitySorting'
 import { getAppleMapsUrl, canNavigate } from '../utils/appleMaps'
 
-function StarRating({ rating, averageRating, ratingCount, onChange }) {
+function StarRating({ rating, averageRating, ratingCount, onChange, disabled = false }) {
   return (
     <div className="star-rating-container">
       <div className="star-rating" role="group" aria-label="Rate this activity">
@@ -10,9 +10,10 @@ function StarRating({ rating, averageRating, ratingCount, onChange }) {
             key={value}
             type="button"
             className={`star-btn${rating >= value ? ' active' : ''}`}
-            onClick={() => onChange(value)}
+            onClick={() => !disabled && onChange(value)}
             aria-label={`${value} star${value > 1 ? 's' : ''}`}
             aria-pressed={rating >= value}
+            disabled={disabled}
           >
             ★
           </button>
@@ -43,6 +44,7 @@ export default function ActivityCard({
   allMemories,
   averageRating,
   favoriteCount,
+  isTourActive = false,
 }) {
   const isComplete = activity.status === 'complete'
   const timeLabel = formatActivityTime(activity)
@@ -64,13 +66,14 @@ export default function ActivityCard({
         <button
           type="button"
           className={`activity-checkbox${isComplete ? ' checked' : ''}`}
-          onClick={() => onToggleComplete(activity.id)}
+          onClick={() => !isTourActive && onToggleComplete(activity.id)}
           aria-label={
             isComplete
               ? `Mark ${activity.title} incomplete`
               : `Mark ${activity.title} complete`
           }
           aria-pressed={isComplete}
+          disabled={isTourActive}
         >
           <svg
             className="checkmark"
@@ -172,14 +175,16 @@ export default function ActivityCard({
               rating={userRating}
               averageRating={averageRating?.average}
               ratingCount={averageRating?.count}
-              onChange={(rating) => onSetRating(activity.id, rating)}
+              onChange={(rating) => !isTourActive && onSetRating(activity.id, rating)}
+              disabled={isTourActive}
             />
             <button
               type="button"
               className={`favorite-btn${isFavorite ? ' active' : ''}`}
-              onClick={() => onToggleFavorite(activity.id)}
+              onClick={() => !isTourActive && onToggleFavorite(activity.id)}
               aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
               aria-pressed={isFavorite}
+              disabled={isTourActive}
             >
               {isFavorite ? '❤' : '♡'}
               {favoriteCount > 0 && (
@@ -196,7 +201,8 @@ export default function ActivityCard({
             rows={2}
             placeholder="One sentence about this moment..."
             value={userMemory}
-            onChange={(e) => onSetMemory(activity.id, e.target.value)}
+            onChange={(e) => !isTourActive && onSetMemory(activity.id, e.target.value)}
+            disabled={isTourActive}
           />
 
           {otherMemories.length > 0 && (
@@ -213,8 +219,9 @@ export default function ActivityCard({
           <button
             type="button"
             className="add-photo-btn"
-            onClick={() => onAddPhoto(activity)}
+            onClick={() => !isTourActive && onAddPhoto(activity)}
             aria-label={`Add photo for ${activity.title}`}
+            disabled={isTourActive}
           >
             📷 Add Photo
           </button>
